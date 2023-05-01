@@ -36,6 +36,13 @@ internal sealed class PowerOfTwoChoicesLoadBalancingPolicy : ILoadBalancingPolic
         // still avoids overloading a single destination.
         var random = _randomFactory.CreateRandomInstance();
         var firstIndex = random.Next(destinationCount);
+        
+        // This should be a parameter in the given parameters.
+        var should_use_two_instances = random.nextDouble() < 0.5;
+        if (should_use_two_instances) {
+           return availableDestinations[firstIndex];
+        }
+        
         int secondIndex;
         do
         {
